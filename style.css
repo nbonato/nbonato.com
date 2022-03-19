@@ -1,0 +1,28 @@
+* {
+    font-family: "Public Sans", sans-serif;
+    background: #c70c1c;
+    color: white;
+    text-align: center;
+
+}
+
+
+a:link, a:visited {
+    background-color: #c70c1c;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border: solid;
+    border-color: white;
+  }
+
+a:hover, a:active {
+    background-color: white;
+    color: #c70c1c;
+}
+
+.fa-brands, .fa-solid {
+    background-color: inherit   ;
+    color: inherit;
+}
