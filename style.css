@@ -6,8 +6,17 @@
 
 }
 
+.topnavLink {
+    font-size: 0.8em;
+}
 
-a:link, a:visited {
+.topnavLink:hover, .topnavLink:active {
+    background-color: white;
+    color: #c70c1c;
+    text-decoration: black;
+}
+
+.linkButton:link, .linkButton:visited {
     background-color: #c70c1c;
     padding: 14px 25px;
     text-align: center;
@@ -17,7 +26,7 @@ a:link, a:visited {
     border-color: white;
   }
 
-a:hover, a:active {
+.linkButton:hover, .linkButton:active {
     background-color: white;
     color: #c70c1c;
 }
@@ -26,3 +35,4 @@ a:hover, a:active {
     background-color: inherit   ;
     color: inherit;
 }
+
