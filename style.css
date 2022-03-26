@@ -1,4 +1,4 @@
-* {
+*, h1, h2 {
     font-family: "Public Sans", sans-serif;
     background: #c70c1c;
     color: white;
@@ -6,8 +6,12 @@
 
 }
 
+p {
+    text-align: left;
+}
+
 .topnavLink {
-    font-size: 0.8em;
+    font-size: 1.1em;
 }
 
 .topnavLink:hover, .topnavLink:active {
@@ -30,7 +34,7 @@ ul {
     border-color: white;
   }
 
-.linkButton:hover, .linkButton:active {
+a:hover, .linkButton:hover, .linkButton:active {
     background-color: white;
     color: #c70c1c;
 }
