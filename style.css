@@ -19,6 +19,10 @@ p {
     color: #c70c1c;
     text-decoration: black;
 }
+
+li {
+    list-style: none;
+}
 ul {
     list-style-type: none;
     padding: 0;
