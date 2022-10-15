@@ -37,7 +37,6 @@ a:hover {
     border-color: var(--text-color);
 
 }
-
 li {
     list-style: none;
     margin: 1em;
@@ -87,9 +86,10 @@ legend h2 {
     padding-right: 0.7em;
 }
 
-.description>.title {
+.title {
     text-align: left;
     font-weight: 700;
+    padding: 0 0.1em;
     margin: 0;
     background-color: var(--text-color);
     color: var(--background-color);
@@ -105,4 +105,27 @@ legend h2 {
     margin: 0.4em 0;
 }
 
+.skills {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1em;
+    padding: 0 1em;
+}
 
+.skills .title {
+    margin: auto;
+}
+
+
+
+.footer {
+    min-height: 2em;
+}
+
+.highlight {
+    background-color: var(--text-color);
+    color: var(--background-color);
+    width: fit-content;
+    display: inline;
+    text-align: left;
+}
