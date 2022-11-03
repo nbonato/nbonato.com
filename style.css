@@ -5,8 +5,8 @@ keeping this CSS relatively short and easy to change.
 */
 
 :root {
-    --background-color: #c70c1c;
-    --text-color: white;
+    --background-color: #f7f7f7;
+    --text-color: #0052a8;
 }
 
 *, h1, h2 {
