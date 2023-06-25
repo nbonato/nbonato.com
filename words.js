@@ -11,15 +11,20 @@ let guessIndex = 0;
 let guessedWord = "";
 
 function checkGuess(guessedWord, compare) {
-    let diffScore = 0;
-    for (let i = 0; i < guessedWord.length; i++) {
-        if (compare[i] != guessedWord[i]) {
-            diffScore ++;
+    if (word_list[guessedWord.charAt(0).toLowerCase()].includes(guessedWord.toLowerCase())) {
+        let diffScore = 0;
+        for (let i = 0; i < guessedWord.length; i++) {
+            if (compare[i] != guessedWord[i]) {
+                diffScore ++;
+            }
         }
-    }
-    if (diffScore != 1) {
-        console.log("DFSDA");
-        showPopup("Change just one letter!");
+        if (diffScore != 1) {
+            console.log("DFSDA");
+            showPopup("Change just one letter!");
+            return false
+        }
+    } else {        
+        showPopup("This word isn't in the list");
         return false
     }
     return true
@@ -39,12 +44,12 @@ function showPopup(message) {
 function parseKey(pressedKey) {
     pressedKey = pressedKey.toUpperCase()
     if (pressedKey == "ENTER") {
-        if (guessIndex == 16) {
-            if (checkGuess(guessedWord, words[5])) {
-                showPopup("You won!");
-            };
-        } else if (guessIndex % 4 == 0 && guessIndex != 0) {
-            if (checkGuess(guessedWord, words[guessIndex/4-1])) {
+        if (guessIndex % 4 == 0 && guessIndex != 0) {
+            if (guessIndex == 16) {
+                if (checkGuess(guessedWord, words[5])) {
+                    showPopup("You won!");
+                };
+            } else if (checkGuess(guessedWord, words[guessIndex/4-1])) {
                 words[guessIndex/4] = guessedWord; 
                 guessedWord = "";
                 for (let i = guessIndex-4; i < guessIndex; i++) {
