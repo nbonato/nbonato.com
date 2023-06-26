@@ -1,6 +1,7 @@
 const guesses = document.getElementById("guesses");
 const start = document.getElementById("start");
 const end = document.getElementById("end");
+const buttons = document.getElementsByClassName("calc-btn");
 
 
 window.addEventListener("keydown", function (e) {
@@ -21,11 +22,19 @@ function checkGuess(guessedWord, compare) {
             }
         }
         if (diffScore != 1) {
-            showPopup("Change just one letter!");
+            for (let i = guessIndex-4; i < guessIndex; i++) {
+                const child = guesses.children[i];
+                shake(child);
+            };
+            showPopup("Just one different letter per line!");
             return false
         }
-    } else {        
-        showPopup("This word isn't in the list");
+    } else {   
+        for (let i = guessIndex-4; i < guessIndex; i++) {
+            const child = guesses.children[i];
+            shake(child);
+        };     
+        showPopup("This word isn't in the list!");
         return false
     }
     return true
@@ -34,6 +43,13 @@ function checkGuess(guessedWord, compare) {
 function getRandomNumber(n) {
     return Math.floor(Math.random() * (n + 1));
 }
+
+function shake(element) {
+    element.classList.add('btn-wrong');
+    setTimeout(function () {
+        element.classList.remove('btn-wrong');;
+    }, 600);
+};
 
 function showPopup(message) {
     const popup = document.getElementById("popup");
@@ -55,6 +71,9 @@ function parseKey(pressedKey) {
                         const child = guesses.children[i];
                         child.classList.add('btn-accepted');
                     };
+                    for (element of buttons) {
+                        element.classList.add('btn-victory');
+                    }
                     showPopup("You won!");
                 };
             } else if (checkGuess(guessedWord, words[guessIndex/4-1])) {

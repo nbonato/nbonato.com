@@ -35,11 +35,21 @@ h1 {
     font-weight: bold;
     color: white;
 }
-  
+
 .popup.show {
     opacity: 1;
     display: block;
 }
+
+@keyframes shake {
+    0% { transform: translate(0em); }
+   30% { transform: translate(-0.1em); }
+   60% { transform: translate(0.1em); }
+   80% { transform: translate(-0.1em); }
+  100% { transform: translate(0em); }
+}
+
+
 
 .game {
     max-width: fit-content;
@@ -74,8 +84,27 @@ h1 {
 }
 
 .btn-accepted {
-    background-color: #c7ffb1;
+    background-color: #a2d98c;
     color: #4c4c4c;
+}
+
+.btn-wrong {
+    animation: shake 100ms 4;
+    background-color: #ff7e7e;
+}
+
+@keyframes wiggle {
+    0% { transform: rotate(0deg); }
+   80% { transform: rotate(0deg); }
+   85% { transform: rotate(5deg); }
+   95% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+
+.btn-victory {
+    animation: wiggle 100ms 4;
+    background-color: #51bc37;
 }
 
 #keyboard-container {
