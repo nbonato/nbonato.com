@@ -12,8 +12,16 @@ let guessIndex = 0;
 let guessedWord = "";
 
 function checkGuess(guessedWord, compare) {
-    console.log(guessedWord.charAt(0).toLowerCase());
-    console.log(guessedWord.toLowerCase());
+    console.log(guessedWord, compare, words[5])
+    if (guessedWord == words[5]) {
+        console.log("fdfe")
+        for (let i = guessIndex-4; i < guessIndex; i++) {
+            const child = guesses.children[i];
+            shake(child);
+        };
+        showPopup("You need to use all four lines!");
+        return false
+    }
     if (word_list[guessedWord.charAt(0).toLowerCase()].includes(guessedWord.toLowerCase())) {
         let diffScore = 0;
         for (let i = 0; i < guessedWord.length; i++) {
@@ -67,14 +75,12 @@ function parseKey(pressedKey) {
         if (guessIndex % 4 == 0 && guessIndex != 0) {
             if (guessIndex == 16) {
                 if (checkGuess(guessedWord, words[5])) {
-                    for (let i = guessIndex-4; i < guessIndex; i++) {
-                        const child = guesses.children[i];
-                        child.classList.add('btn-accepted');
-                    };
-                    for (element of buttons) {
-                        element.classList.add('btn-victory');
+                    if (guessIndex == 16) {
+                        for (element of buttons) {
+                            element.classList.add('btn-victory');
+                        }
+                        showPopup("You won!");
                     }
-                    showPopup("You won!");
                 };
             } else if (checkGuess(guessedWord, words[guessIndex/4-1])) {
                 words[guessIndex/4] = guessedWord; 
