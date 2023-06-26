@@ -11,6 +11,8 @@ let guessIndex = 0;
 let guessedWord = "";
 
 function checkGuess(guessedWord, compare) {
+    console.log(guessedWord.charAt(0).toLowerCase());
+    console.log(guessedWord.toLowerCase());
     if (word_list[guessedWord.charAt(0).toLowerCase()].includes(guessedWord.toLowerCase())) {
         let diffScore = 0;
         for (let i = 0; i < guessedWord.length; i++) {
@@ -19,7 +21,6 @@ function checkGuess(guessedWord, compare) {
             }
         }
         if (diffScore != 1) {
-            console.log("DFSDA");
             showPopup("Change just one letter!");
             return false
         }
@@ -30,6 +31,9 @@ function checkGuess(guessedWord, compare) {
     return true
 }
 
+function getRandomNumber(n) {
+    return Math.floor(Math.random() * (n + 1));
+}
 
 function showPopup(message) {
     const popup = document.getElementById("popup");
@@ -47,6 +51,10 @@ function parseKey(pressedKey) {
         if (guessIndex % 4 == 0 && guessIndex != 0) {
             if (guessIndex == 16) {
                 if (checkGuess(guessedWord, words[5])) {
+                    for (let i = guessIndex-4; i < guessIndex; i++) {
+                        const child = guesses.children[i];
+                        child.classList.add('btn-accepted');
+                    };
                     showPopup("You won!");
                 };
             } else if (checkGuess(guessedWord, words[guessIndex/4-1])) {
@@ -62,6 +70,12 @@ function parseKey(pressedKey) {
 
     } else if (pressedKey == "BACKSPACE") {
         if (guessIndex > 0) {
+            if (guessIndex % 4 == 0) {
+                for (let i = guessIndex-4; i < guessIndex; i++) {
+                    const child = guesses.children[i];
+                    child.classList.remove('btn-accepted');
+                }
+            }
             guessIndex--;
             guesses.children.item(guessIndex).textContent = "";
         }
@@ -85,7 +99,10 @@ for (let i = 0; i<16; i++) {
 }
 
 
-let words = ["DOOR", "", "", "", "", "SPIN"];
+let combinationIndex = getRandomNumber(combinations.length-1);
+
+
+let words = [combinations[combinationIndex][0].toUpperCase(), "", "", "", "", combinations[combinationIndex][1].toUpperCase()];
 let startWord = words[0];
 let endWord = words[5];
 
