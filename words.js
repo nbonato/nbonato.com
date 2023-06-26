@@ -1,3 +1,13 @@
+const startDate = new Date('2023-06-26'); // Set your desired starting date
+const currentDate = new Date(); // Get the current date
+
+// Calculate the time difference in milliseconds
+const timeDiff = currentDate.getTime() - startDate.getTime();
+
+// Calculate the number of days elapsed by dividing the time difference by the number of milliseconds in a day
+const daysElapsed = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+
 const guesses = document.getElementById("guesses");
 const start = document.getElementById("start");
 const end = document.getElementById("end");
@@ -12,9 +22,9 @@ let guessIndex = 0;
 let guessedWord = "";
 
 function checkGuess(guessedWord, compare) {
-    console.log(guessedWord, compare, words[5])
+
     if (guessedWord == words[5]) {
-        console.log("fdfe")
+
         for (let i = guessIndex-4; i < guessIndex; i++) {
             const child = guesses.children[i];
             shake(child);
@@ -124,7 +134,8 @@ for (let i = 0; i<16; i++) {
 }
 
 
-let combinationIndex = getRandomNumber(combinations.length-1);
+let combinationIndex = daysElapsed;
+//let combinationIndex = getRandomNumber(combinations.length-1);
 
 
 let words = [combinations[combinationIndex][0].toUpperCase(), "", "", "", "", combinations[combinationIndex][1].toUpperCase()];
