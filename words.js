@@ -7,15 +7,45 @@ const timeDiff = currentDate.getTime() - startDate.getTime();
 // Calculate the number of days elapsed by dividing the time difference by the number of milliseconds in a day
 const daysElapsed = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
 
+function populateStorage() {
+    localStorage.setItem("streakLength", 0);
+    localStorage.setItem("firstPlay", currentDate.getTime());
+    localStorage.setItem("daysPlayed", 0);
+    localStorage.setItem("dailyWins", 0);
+    localStorage.setItem("streakOn", true)
+};
+  
+
 
 const guesses = document.getElementById("guesses");
 const start = document.getElementById("start");
 const end = document.getElementById("end");
 const buttons = document.getElementsByClassName("calc-btn");
+let streakModal = document.getElementById("streak");
+let streakText = document.getElementById("streak-text");
+
+
 
 
 window.addEventListener("keydown", function (e) {
-    parseKey(e.key);
+    let key = e.key;
+
+    // Check if F5 key is pressed
+    if (key === "F5" || key === "F12") {
+      // Allow default behavior for F5 key
+      return;
+    }
+    e.preventDefault();
+    if (!localStorage.getItem("firstPlay")) {
+        populateStorage();
+
+    }; 
+    if (localStorage.getItem("playedToday") == "true") {
+        showPopup("You already played today!");
+    } else {
+        parseKey(e.key);
+    };
+    
 });
 
 let guessIndex = 0;
@@ -79,18 +109,46 @@ function showPopup(message) {
     }, 1700);
 }
 
+
+
+
 function parseKey(pressedKey) {
+    
     pressedKey = pressedKey.toUpperCase()
     if (pressedKey == "ENTER") {
         if (guessIndex % 4 == 0 && guessIndex != 0) {
             if (guessIndex == 16) {
+                let msPlayed = currentDate.getTime() - parseInt(localStorage.getItem("firstPlay"));
+                let daysPlayed = Math.floor(msPlayed / (1000 * 60 * 60 * 24))
+                localStorage.setItem("daysPlayed", daysPlayed+1);
                 if (checkGuess(guessedWord, words[5])) {
                     if (guessIndex == 16) {
+                        let buttonsStorage = [];
                         for (element of buttons) {
+                            buttonsStorage.push(element.textContent);
                             element.classList.add('btn-victory');
-                        }
+                        };
+                        localStorage.setItem("buttonsStorage", buttonsStorage);
                         showPopup("You won!");
-                    }
+                        
+                        if (localStorage.getItem("playedToday") != "true") {
+                            localStorage.setItem("dailyWins", parseInt(localStorage.getItem("dailyWins"))+1);
+                            if (localStorage.getItem("streakOn") == "true") {
+                                localStorage.setItem("streakLength", parseInt(localStorage.getItem("streakLength"))+1);
+                            };
+                        };
+                        localStorage.setItem("playedToday", true);
+                        streakModal.showModal();
+                        if (localStorage.getItem("longestStreak") === null || parseInt(localStorage.getItem("streakLength")) > parseInt(localStorage.getItem("longestStreak"))) {
+                            longestStreak = localStorage.getItem("streakLength");
+                            localStorage.setItem("longestStreak", longestStreak);
+                        };
+                        streakText.textContent = `You have played for ${localStorage.getItem("daysPlayed")} days, winning ${localStorage.getItem("dailyWins")}. Your current streak is ${localStorage.getItem("streakLength")} days long. Your longest streak is ${localStorage.getItem("longestStreak")} days long.`;
+                    };
+                } else {
+                    showPopup("You lost!");
+                    localStorage.setItem("streakOn", false);
+                    localStorage.setItem("streakLength", 0);
                 };
             } else if (checkGuess(guessedWord, words[guessIndex/4-1])) {
                 words[guessIndex/4] = guessedWord; 
@@ -157,6 +215,15 @@ for (let letter of endWord) {
 }
 
 
+// Replace all letters with already played ones
+if (localStorage.getItem("playedToday") == "true") {
+    let buttonsStored = localStorage.getItem("buttonsStorage").split(",");
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].textContent = buttonsStored[i];
+        buttons[i].classList.add('btn-greyed');
+    };
+            
+}
 
 const keyboard = document.getElementById("keyboard");
 

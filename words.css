@@ -42,10 +42,15 @@ h1 {
     color: white;
 }
 
-.popup.show {
+
+
+.show {
     opacity: 1;
     display: block;
 }
+
+
+
 
 @keyframes shake {
     0% { transform: translate(0em); }
@@ -97,6 +102,11 @@ h1 {
 .btn-wrong {
     animation: shake 100ms 4;
     background-color: #ff7e7e;
+}
+
+.btn-greyed {
+    background-color: rgb(201, 200, 200);
+    color: grey;
 }
 
 @keyframes wiggle {
