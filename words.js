@@ -143,7 +143,7 @@ function parseKey(pressedKey) {
                             longestStreak = localStorage.getItem("streakLength");
                             localStorage.setItem("longestStreak", longestStreak);
                         };
-                        streakText.textContent = `You have played for ${localStorage.getItem("daysPlayed")} days, winning ${localStorage.getItem("dailyWins")}. Your current streak is ${localStorage.getItem("streakLength")} days long. Your longest streak is ${localStorage.getItem("longestStreak")} days long.`;
+                        streakText.textContent = `You have played for ${localStorage.getItem("daysPlayed")} days, winning ${localStorage.getItem("dailyWins")} out of ${daysElapsed}. Your current streak is ${localStorage.getItem("streakLength")} days long. Your longest streak is ${localStorage.getItem("longestStreak")} days long.`;
                     };
                 } else {
                     showPopup("You lost!");
