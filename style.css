@@ -133,3 +133,25 @@ legend h2 {
     display: inline;
     text-align: left;
 }
+
+.portfolio {
+    margin-top: 3em;
+}
+
+.portfolio-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2em;
+
+}
+
+.portfolio-text, .portfolio-image {
+    border: 2.2px solid var(--text-color);
+    text-align: left;
+    padding: 0.5em;
+}
+
+
+.portfolio-image img {
+    max-width: 100%;
+}
