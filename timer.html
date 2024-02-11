@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Task timer</title>
+    <style>
+        tasklist {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        task {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            padding: 1rem;
+            margin: 0.5rem 0;
+            max-width: max(20vw, 400px);
+        }
+    </style>
+</head>
+<body>
+    <h1>Track your tasks</h1>
+    <form id="task-form" autocomplete="off">
+        <label for="name">New task </label>
+        <input type="text" name="name" id="task-name" required/>
+        <button type="submit" id="create-button">Create task</button>
+    </form>
+    <tasklist>
+    </tasklist>
+    
+    <script>
+        const taskListElement = document.getElementsByTagName("tasklist")[0];
+        const taskForm = document.getElementById("task-form");
+
+
+        let taskList = [];
+        let tasksNumber = 0;
+        function createTask(taskObject) {
+            let taskElement = document.createElement("task");
+
+            let taskName = document.createElement("taskname");
+            let taskTimerDisplay = document.createElement("timerdisplay")
+            let taskTimerButton = document.createElement("button");
+            
+            taskTimerDisplay.textContent = "00";
+            taskTimerDisplay.setAttribute("class", "timer")  
+            taskTimerButton.textContent = "Timer";
+
+            let randomColor = Math.floor(Math.random()*16777215).toString(16);
+            console.log(randomColor)
+            taskElement.style.backgroundColor = `#${randomColor}`
+
+            // Add event listener to the taskTimerButton
+            taskTimerButton.addEventListener("click", function() {
+                if (taskElement.dataset.counting == "true") {
+                    console.log("stop")
+                    taskElement.setAttribute("data-counting", "false")
+                } else {
+                    taskElement.setAttribute("data-counting", "true")
+                    startTimer(taskElement);
+                } 
+            });
+            
+            taskName.textContent = taskObject.name;
+            
+            taskElement.setAttribute("data-timer", 0)
+            taskElement.setAttribute("data-counting", "false")
+            taskElement.setAttribute("id", `task-${tasksNumber}`)
+            
+            tasksNumber ++
+
+            taskElement.appendChild(taskName)
+            taskElement.appendChild(taskTimerDisplay);
+            taskElement.appendChild(taskTimerButton);
+            taskListElement.appendChild(taskElement)
+        }
+
+        taskForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get form data
+            const formData = new FormData(taskForm);
+            const formDataObject = Object.fromEntries(formData.entries()); // Convert FormData to object
+            createTask(formDataObject);
+            taskForm.reset();
+        });
+
+
+
+
+
+        function startTimer(taskElement){
+            let seconds = taskElement.dataset.timer;
+
+            // Define the setTimeout function
+            function timerFunction() {
+                let timer = taskElement.querySelector(".timer");
+                timer.textContent = seconds;
+                taskElement.setAttribute("data-timer", seconds);
+
+                console.log(taskElement.dataset.counting)
+                if (taskElement.dataset.counting == "false") {
+                    clearTimeout(timerID); // Stop the timer
+                } else {
+                    // Continue the timer by calling setTimeout recursively
+                    timerID = setTimeout(timerFunction, 1000);
+                    seconds++;
+
+                }
+            }
+
+            // Start the timer
+            timerFunction();
+        };
+
+
+        function stopTimer(taskElement){
+            taskElement.setAttribute("data-counting", "false")
+            let seconds = taskElement.dataset.timer;
+            setTimeout(function(){
+                seconds++;
+                let timer = taskElement.querySelector(".timer");
+                timer.textContent = seconds;
+                taskElement.setAttribute("data-timer", seconds);
+                startTimer(taskElement)
+            },1000);
+        };
+
+            
+
+    </script>
+
+</body>
+</html>
