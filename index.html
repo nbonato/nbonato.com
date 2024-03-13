@@ -1,48 +1,91 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Hi! This is my website. I am a data and policy analyst for hire. Feel free to click around to learn more about me!"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/e56523a6b4.js" crossorigin="anonymous"></script>
+    
+    <!-- OG Meta Tags -->
+    
+    <!-- It should be possible to inject the learner's name in these tags dynamically   --> 
+    <meta property="og:title" content="Yong Kim's Certificate"> 
+    <meta property="og:description" content="Certificate for the IONQ Quantum Leadership Training Program">
 
-    <title>Nicolò Bonato</title>
+    <!-- Using local PNG   --> 
+    <meta property="og:image" content="/ionq/certificate-ID.png">
+
+    <!-- I imagine it might be something like this -->
+    <meta property="og:url" content="https://certificate.ionq.com/courseName/id">
+    <meta property="og:type" content="website">
+    
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Yong Kim's Certificate">
+    <meta name="twitter:description" content="Certificate for the IONQ Quantum Leadership Training Program">
+    <meta name="twitter:image" content="/ionq/certificate-ID.png">
+    
+    <!-- These meta tags are mostly for Search, so probably irrelevant to your case -->
+    <meta name="description" content="Certificate for the IONQ Quantum Leadership Training Program">
+    <meta name="keywords" content="certificate, achievement, recognition">
+    
+    <!-- Favicon (picked from IONQ website) -->
+    <link rel="icon" href="https://ionq.com/favicon-32x32.png">
+
+    <!-- This one can also be dynamically generated -->
+    <title>Yong Kim's Certificate</title>
 </head>
 <body>
-    <div class="w3-container">
-        <h1>Nicolò Bonato</h1>
-        <a class="topnav-link" href="contact.html">Contacts</a>
-        <a class="topnav-link" href="about.html">About</a>
-        <a class="topnav-link" href="curriculum.html">Curriculum</a>
-        <a class="topnav-link" href="portfolio.html">Portfolio</a>
-    
-    
-        <div class="w3-auto" style="max-width:700px">
-    
-            <p style="text-align: center">Hi! This is my website.<br>
-            Feel free to click around to learn more about me, but you can find me at the following links</p>
-            <ul>
-                <li>
-                    <a class="link-button" href="https://www.linkedin.com/in/nbonato/" target="_blank">
-                    <i class="fa-brands fa-linkedin"></i> linkedin.com/in/nbonato</a>
-                </li>
-                <li>
-                    <a class="link-button" href="https://github.com/nbonato/" target="_blank">
-                    <i class="fa-brands fa-github-square"></i> github.com/nbonato</a>
-                </li>
-                <li>
-                    <a class="link-button" href="https://twitter.com/nbonatotw" target="_blank">
-                    <i class="fa-brands fa-twitter-square"></i> twitter.com/nbonatotw</a>
-                </li>
-            </ul>
+    <header>
+        <img src="headerDesktop.svg" id="header-image" alt="Header"> 
+    </header>
+    <img src="logotype.svg" id="logo-top-left" alt="IONQ logotype">
+    <img src="waveTopLeft.svg" id="wave-top-left" alt="wave decoration">
+
+    <p id="certificate-info">
+        Certification Date: Tuesday, September 12, 2023<br>Candidate ID: QLTP501SK
+    </p>
+    <div class="container">
+        <div class="icon">
+            <img src="logo.svg" id="learning-logo" alt="IONQ logo">
+            <p id="learning-text">LEARNING</p>
+        </div>
+        <p>
+            IONQ is proud to award this certificate of Achievement
+        </p>
+        <h1>
+            Quantum Leadership Training Program
+        </h1>
+        <p>
+            to
+        </p>
+        <p id="recipient-name">
+            Yong Kim
+        </p>
+        <p id="recognition">
+            In recognition of successful completion of all 40 hours of technical lectures, discussions and hands-on programming exercises
+        </p>
+        <div id="certifiers">
+
+            <div>
+                <hr>
+                <p>Jungsang Kim<br>Chief Technology Officer</p>
+            </div>
+            <div>
+                <hr>
+                <p>Christopher Monroe<br>Chief Scientist</p>
+            </div>
+        </div>
+        <div id="link-buttons">
+                <a href="">Download</a>
+                <a href="">Copy link</a>
         </div>
     </div>
-
-<script>(function(v,i,s,a,t){v[t]=v[t]||function(){(v[t].v=v[t].v||[]).push(arguments)};if(!v._visaSettings){v._visaSettings={}}v._visaSettings[a]={v:'1.0',s:a,a:'1',t:t};var b=i.getElementsByTagName('body')[0];var p=i.createElement('script');p.defer=1;p.async=1;p.src=s+'?s='+a;b.appendChild(p)})(window,document,'//app-worker.visitor-analytics.io/main.js','9c4ec6fb-4c14-11ee-b589-901b0edac50a','va')</script>
+    <img src="waveBottomRight.svg" id="wave-bottom-right" alt="">
+    <footer>
+        <img src="footerDesktopLeft.svg" id="footer-image" alt="Footer"> 
+        <img src="footerDesktopRight.svg" id="footer-right" alt="Footer"> 
+    </footer>
+    
 </body>
-</html> 
-
-
-
+</html>
