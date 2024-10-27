@@ -14,12 +14,66 @@ keeping this CSS relatively short and easy to change.
     font-family: "Public Sans", sans-serif;
     background: var(--background-color);
     color: var(--text-color);
-    text-align: center;
-    line-height: normal;
+}
+
+a {
+    text-decoration: none;
+    color: #1b75d0 ;
+}
+
+a i {
+    color: inherit;
+
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:visited {
+    color: #393fac
+}
+
+h1 {
+    margin: 0;
+}
+
+.dark-text {
+    color: var(--text-color);
+}
+
+h3 {
+    font-size: 0.8rem;
+    width: fit-content;
+    padding: 0.4rem 0.5rem;
+    color: white;
+    border-radius: 0.2rem;
+    font-weight: 500;
+}
+
+strong {
+    background-color: inherit;
+    color: inherit;
 }
 
 
 header {
     display: grid;
     grid-template-columns: 1fr 2fr;
+    justify-content: space-between;
+    margin: 1rem 0;
 }
+
+nav {
+    text-align: right;
+}
+
+#jobs-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    column-gap: 4rem;
+}
+
+
+
