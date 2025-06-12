@@ -5,33 +5,57 @@ keeping this CSS relatively short and easy to change.
 */
 
 :root {
+    --text-color: #141414;
     --background-color: #f7f7f7;
-    --text-color: #242424;
     --highlight-color: #ffdc20;
 }
 
+
+
 *, h1, h2 {
     font-family: "Public Sans", sans-serif;
-    background: var(--background-color);
-    color: var(--text-color);
+/*     background: var(--background-color);
+ */    color: var(--text-color);
+}
+
+article {
+    border-bottom: 1px solid #b1b4b6;
+    padding-bottom: .5rem;
+}
+
+body {
+    background: var(--background-color);    
+}
+
+p {
+    margin: 0.6rem 0;
+}
+
+.glass {
+    border-radius: 1rem;
+    padding: .8rem;
+    background-color: rgba(255, 255, 255, 0.712);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1), inset 0px 0px 2px 1px #ffffff;    
+    width: fit-content;
 }
 
 a {
     text-decoration: none;
+}
+
+a h3 {
+    text-decoration: underline;
     color: #1b75d0 ;
 }
 
-a i {
-    color: inherit;
 
+a:visited h3 {
+    color: #6139ac
 }
 
-a:hover {
-    text-decoration: underline;
-}
-
-a:visited {
-    color: #393fac
+a:hover h3 {
+    color: #08427c ;
+    text-decoration-thickness: 3px 
 }
 
 h1 {
@@ -43,16 +67,13 @@ h1 {
 }
 
 h3 {
-    font-size: 0.8rem;
+    font-size: 1rem;
     width: fit-content;
-    padding: 0.4rem 0.5rem;
-    color: white;
-    border-radius: 0.2rem;
     font-weight: 500;
+    margin: 0;
 }
 
 strong {
-    background-color: inherit;
     color: inherit;
 }
 
@@ -70,10 +91,16 @@ nav {
 
 #jobs-overview {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1rem;
     column-gap: 4rem;
 }
 
 
 
+@media (orientation: landscape) and (min-width: 1000px) {
+    body {
+      max-width: 50vw;
+      margin: auto;
+    }
+  }
