@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Audio Articles</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 p-6">
+    <h1 class="text-2xl font-semibold mb-4">Audio Articles</h1>
+
+
+    <details class="border-b border-gray-300 py-2">
+        
+        <summary class="cursor-pointer font-bold list-none flex justify-between items-center text-gray-900">
+          What's this?
+          <svg
+            class="w-4 h-4 text-gray-500 transition-transform duration-300 [&[open]>summary>&]:rotate-180"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </summary>
+
+        <p>This is a list of Atlantic articles that have an audio version, sorted by default from longest to shortest.</p>
+        <p>You can click on the duration column header to sort it.</p>
+        <p>I built this almost entirely with ChatGPT just to have an easier way to find articles to listen to on my walks without having to click around randomly on the Atlantic app or website.</p>
+
+    </details>
+    <details class="border-b border-gray-300 py-2">
+        
+        <summary class="cursor-pointer font-bold list-none flex justify-between items-center text-gray-900">
+          Who built this?
+          <svg
+            class="w-4 h-4 text-gray-500 transition-transform duration-300 [&[open]>summary>&]:rotate-180"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </summary>
+        <p><a href="https://www.nbonato.com/" class="text-blue-600 hover:underline">Nicolò Bonato</a></p>
+    </details>
+    <details class="border-b border-gray-300 py-2">
+        
+        <summary class="cursor-pointer font-bold list-none flex justify-between items-center text-gray-900">
+          Filters
+          <svg
+            class="w-4 h-4 text-gray-500 transition-transform duration-300 [&[open]>summary>&]:rotate-180"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </summary>
+
+        <input type="text" id="filter-input" placeholder="Filter by title, tag, or author..."
+        class="mb-4 px-3 py-2 border rounded w-full max-w-md shadow-sm" />
+
+        <div class="mb-4">
+            <p class="font-medium mb-2">Filter by Article Tag:</p>
+            <div id="tag-filters" class="flex flex-wrap gap-3"></div>
+        </div>
+    </details>
+
+
+
+    <div class="overflow-x-auto">
+        <table id="data-table" class="min-w-full bg-white shadow rounded-lg">
+            <thead class="bg-gray-100">
+                <tr id="table-head" class="text-left cursor-pointer"></tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+        </table>
+    </div>
+
+    <script>
+        let data = [];
+        let currentSortKey = '';
+        let currentSortAsc = true;
+        let activeTags = new Set();
+
+        // Utility to filter text
+        function matchTextFilter(row, query) {
+            const str = Object.values(row).join(' ').toLowerCase();
+            return str.includes(query.toLowerCase());
+        }
+
+        // Utility to filter by selected tags
+        function matchTagFilter(row) {
+            if (activeTags.size === 0) return true; // nothing selected = show all
+            return activeTags.has(row.article_tag);
+        }
+
+        function renderTable(dataToRender) {
+            const tableHead = document.getElementById('table-head');
+            const tableBody = document.getElementById('table-body');
+
+            tableHead.innerHTML = '';
+            tableBody.innerHTML = '';
+
+            if (dataToRender.length === 0) return;
+
+            // Only show title and duration in main row
+            const columns = ['title', 'duration'];
+
+            // Header
+            columns.forEach(key => {
+                const th = document.createElement('th');
+                th.textContent = key;
+                th.className = "px-4 py-2 text-left hover:underline";
+                th.onclick = () => sortBy(key);
+                tableHead.appendChild(th);
+            });
+
+            // Rows
+            dataToRender.forEach((row, i) => {
+                // Main visible row
+                const tr = document.createElement('tr');
+                tr.className = "border-t cursor-pointer bg-white hover:bg-gray-50";
+                tr.onclick = () => {
+                    const detailRow = document.getElementById(`details-${i}`);
+                    if (detailRow) detailRow.classList.toggle("hidden");
+                };
+
+                // Title column with link
+                const titleTd = document.createElement('td');
+                titleTd.className = "px-4 py-2";
+                const a = document.createElement('a');
+                a.href = row.url;
+                a.textContent = row.title;
+                a.target = "_blank";
+                a.className = "text-blue-600 hover:underline";
+                titleTd.appendChild(a);
+                tr.appendChild(titleTd);
+
+                // Duration column
+                const durTd = document.createElement('td');
+                durTd.textContent = row.duration;
+                durTd.className = "px-4 py-2";
+                durTd.setAttribute("data-sort", row.duration_seconds || 0);
+                tr.appendChild(durTd);
+
+                // Details row (initially hidden)
+                const detailTr = document.createElement('tr');
+                detailTr.id = `details-${i}`;
+                detailTr.className = "hidden bg-gray-50";
+
+                const detailTd = document.createElement('td');
+                detailTd.colSpan = 2;
+                detailTd.className = "px-4 py-2 text-sm text-gray-700";
+
+                detailTd.innerHTML = `
+                    <div><em>${row.og_description || "N/A"}</em> </div>
+                    <div><strong>${row.author || "N/A"}</strong> </div>
+                    <span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
+                        ${row.article_tag || "N/A"}
+                    </span>
+                `;
+
+                detailTr.appendChild(detailTd);
+
+                tableBody.appendChild(tr);
+                tableBody.appendChild(detailTr);
+            });
+        }
+
+
+        function sortBy(key) {
+            if (currentSortKey === key) {
+                currentSortAsc = !currentSortAsc;
+            } else {
+                currentSortKey = key;
+                currentSortAsc = true;
+            }
+
+            data.sort((a, b) => {
+                let valA = a[key];
+                let valB = b[key];
+
+                // Special case: use duration_seconds for duration sorting
+                if (key === 'duration') {
+                    valA = a.duration_seconds || 0;
+                    valB = b.duration_seconds || 0;
+                }
+
+                if (valA < valB) return currentSortAsc ? -1 : 1;
+                if (valA > valB) return currentSortAsc ? 1 : -1;
+                return 0;
+            });
+
+            filterAndRender();
+        }
+
+
+        function filterAndRender() {
+            const query = document.getElementById('filter-input').value;
+            const filtered = data
+                .filter(row => matchTextFilter(row, query))
+                .filter(row => matchTagFilter(row));
+            renderTable(filtered);
+        }
+
+        // Handle text filter
+        document.getElementById('filter-input').addEventListener('input', filterAndRender);
+
+        function createTagFilters(uniqueTags) {
+            const container = document.getElementById('tag-filters');
+            container.innerHTML = '';
+
+            // Create Select All checkbox
+            const selectAllLabel = document.createElement('label');
+            selectAllLabel.className = "flex items-center space-x-3 py-3 px-2 cursor-pointer select-none";
+            selectAllLabel.style.background = "#dfdfdf"
+
+            const selectAllCheckbox = document.createElement('input');
+            selectAllCheckbox.type = 'checkbox';
+            selectAllCheckbox.className = "form-checkbox h-6 w-6 text-blue-600 tag-filter";
+            selectAllCheckbox.checked = true;
+
+            selectAllCheckbox.addEventListener('change', () => {
+                const checkboxes = container.querySelectorAll('input[type=checkbox].tag-filter');
+                checkboxes.forEach(cb => {
+                    cb.checked = selectAllCheckbox.checked;
+                    if (selectAllCheckbox.checked) {
+                        activeTags.add(cb.value);
+                    } else {
+                        activeTags.delete(cb.value);
+                    }
+                });
+                filterAndRender();
+            });
+
+            selectAllLabel.appendChild(selectAllCheckbox);
+            selectAllLabel.appendChild(document.createTextNode("Select All"));
+            container.appendChild(selectAllLabel);
+
+            // Create individual tag checkboxes
+            uniqueTags.forEach(tag => {
+                const label = document.createElement('label');
+                label.className = "flex items-center space-x-3 py-3 px-2 cursor-pointer select-none";
+                label.style.background = "#dfdfdf"
+
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.value = tag;
+                checkbox.className = "form-checkbox h-6 w-6 text-blue-600 tag-filter";
+                checkbox.checked = true;
+                activeTags.add(tag);
+
+                checkbox.addEventListener('change', () => {
+                    if (checkbox.checked) {
+                        activeTags.add(tag);
+                    } else {
+                        activeTags.delete(tag);
+                    }
+
+                    // Update Select All state
+                    const allBoxes = container.querySelectorAll('input[type=checkbox].tag-filter');
+                    const checkedBoxes = [...allBoxes].filter(cb => cb.checked);
+                    selectAllCheckbox.checked = checkedBoxes.length === allBoxes.length;
+
+                    filterAndRender();
+                });
+
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(tag));
+                container.appendChild(label);
+            });
+        }
+
+        // Load data
+        fetch('data.json')
+            .then(response => response.json())
+            .then(json => {
+                data = json;
+
+                const uniqueTags = Array.from(new Set(data.map(row => row.article_tag).filter(Boolean))).sort();
+                createTagFilters(uniqueTags);
+
+                renderTable(data);
+            });
+    </script>
+</body>
+
+</html>
