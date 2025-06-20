@@ -8,12 +8,13 @@ keeping this CSS relatively short and easy to change.
     --text-color: #141414;
     --background-color: #f7f7f7;
     --highlight-color: #ffdc20;
+    font-family: "Public Sans", sans-serif;
 }
 
 
 
-*, h1, h2 {
-    font-family: "Public Sans", sans-serif;
+h1, h2, p {
+    
 /*     background: var(--background-color);
  */    color: var(--text-color);
 }
@@ -39,21 +40,21 @@ p {
     width: fit-content;
 }
 
-a {
+.card-link {
     text-decoration: none;
 }
 
-a h3 {
+.card-link h3 {
     text-decoration: underline;
     color: #1b75d0 ;
 }
 
 
-a:visited h3 {
+.card-link:visited h3 {
     color: #6139ac
 }
 
-a:hover h3 {
+.card-link:hover h3 {
     color: #08427c ;
     text-decoration-thickness: 3px 
 }
